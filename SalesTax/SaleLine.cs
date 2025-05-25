@@ -140,7 +140,12 @@ namespace SalesTax
         /// <returns>The string representation of the sale line</returns>
         public override string ToString()
         {
-            return string.Format("{0} {1}: {2:0.00}", Quantity, ProductName, LineValue);
+            string displayedProductName = ProductName;
+            if (IsImported)
+            {
+                displayedProductName = "imported " + ProductName;
+            }
+            return string.Format("{0} {1}: {2:0.00}", Quantity, displayedProductName, LineValue);
         }
     }
 }
