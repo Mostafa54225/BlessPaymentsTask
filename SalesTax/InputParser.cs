@@ -43,11 +43,11 @@ namespace SalesTax
                 return ParseResult.Fail("Product name could not be determined.");
 
             //Check if this is an imported product
-            isImported = productName.Contains("imported ");
+            isImported = productName.Contains("imported"); // More robust check
             if (isImported)
             {
-                //Ensure the word imported appears at the front of the description
-                productName = "imported " + productName.Replace("imported ", string.Empty);
+                // Remove "imported " from the product name, trim any resulting whitespace
+                productName = productName.Replace("imported ", string.Empty).Trim(); 
             }
 
             // create the sale line
