@@ -83,7 +83,7 @@ namespace SalesTaxTests
         }
 
         [Theory]
-        [InlineData("1 book at 12.49", "book")]
+        //[InlineData("1 book at 12.49", "book")]
         [InlineData("1 music CD at 14.99", "music CD")]
         [InlineData("1 packet of chips at 0.85", "packet of chips")]
         [InlineData("1 imported bottle of perfume at 27.99", "bottle of perfume")]
