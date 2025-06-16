@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  DOTNET_VERSION: '8.0.x' # Change if using 7.x, 8.x, etc.
+  DOTNET_VERSION: '8.0.x'
 
 jobs:
   build-test-publish:
@@ -42,7 +42,7 @@ jobs:
 
   deploy:
     name: Deploy from Artifact
-    runs-on: windows-latest
+    runs-on: self-hosted
     needs: build-test-publish
 
     steps:
@@ -50,11 +50,20 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: SalesTaxApp
-          path: ./deploy
+          path: ${{ github.workspace }}\deploy
 
-      - name: Deploy (placeholder)
+      - name: Show downloaded files
+        run: |
+          echo "Files downloaded to:"
+          dir "${{ github.workspace }}\deploy"
+
+      - name: Deploy to IIS (or test path)
         run: |
           echo "Deploying to target location..."
-          # Replace this with your actual deploy logic (e.g., xcopy, robocopy, scp, Azure CLI)
-          mkdir C:\inetpub\wwwroot\SalesTaxApp
-          xcopy ".\deploy\*" "C:\inetpub\wwwroot\SalesTaxApp" /s /e /y
+          mkdir "C:\SalesTaxTestDeploy"
+          xcopy "${{ github.workspace }}\deploy\*" "C:\SalesTaxTestDeploy" /s /e /y
+
+      - name: Confirm copied files
+        run: |
+          echo "Verifying files in target folder:"
+          dir "C:\SalesTaxTestDeploy"
