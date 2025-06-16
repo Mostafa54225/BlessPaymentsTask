@@ -32,7 +32,7 @@ jobs:
         run: dotnet test SalesTaxTests/SalesTaxTests.csproj --verbosity normal
 
       - name: Publish app
-        run: dotnet publish SalesTax/SalesTax.csproj --configuration Release --output ./publish
+        run: dotnet publish SalesPrompter/SalesPrompter.csproj --configuration Release --output ./publish
 
       - name: Upload published files as artifact
         uses: actions/upload-artifact@v4
@@ -60,10 +60,13 @@ jobs:
       - name: Deploy to IIS (or test path)
         run: |
           echo "Deploying to target location..."
-          mkdir "C:\SalesTaxTestDeploy"
-          xcopy "${{ github.workspace }}\deploy\*" "C:\SalesTaxTestDeploy" /s /e /y
+          if (Test-Path "C:\SalesPrompter") {
+            Remove-Item "C:\SalesPrompter" -Recurse -Force
+          }
+          mkdir "C:\SalesPrompter"
+          xcopy "${{ github.workspace }}\deploy\*" "C:\SalesPrompter" /s /e /y
 
       - name: Confirm copied files
         run: |
           echo "Verifying files in target folder:"
-          dir "C:\SalesTaxTestDeploy"
+          dir "C:\SalesPrompter"
