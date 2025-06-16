@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  DOTNET_VERSION: '6.0.x' # Change if using 7.x, 8.x, etc.
+  DOTNET_VERSION: '8.0.x' # Change if using 7.x, 8.x, etc.
 
 jobs:
   build-test-publish:
